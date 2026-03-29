@@ -6,6 +6,7 @@ import { auth, db } from './firebase-config.js';
 import {
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
@@ -27,12 +28,28 @@ export const getCurrentPlan     = () => _currentUserData?.subscriptionType ?? 'F
 // ── Google Sign-In ────────────────────────────────────────────
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
+  provider.setCustomParameters({ prompt: 'select_account', hl: 'ar' });
+  provider.addScope('email');
+  provider.addScope('profile');
   try {
     const result = await signInWithPopup(auth, provider);
     return result.user;
   } catch (err) {
     console.error('Google sign-in failed:', err.code, err.message);
+
+    // Fallback for browsers that block popups or have strict privacy settings.
+    const fallbackCodes = new Set([
+      'auth/popup-blocked',
+      'auth/popup-closed-by-user',
+      'auth/cancelled-popup-request',
+      'auth/operation-not-supported-in-this-environment',
+    ]);
+
+    if (fallbackCodes.has(err.code)) {
+      await signInWithRedirect(auth, provider);
+      return null;
+    }
+
     throw err;
   }
 }

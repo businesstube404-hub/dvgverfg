@@ -71,6 +71,37 @@
       <div class="stat-box"><i class="fa fa-users"></i><h3>1000+</h3><p>طالب مشترك</p></div>
     </div>
 
+    <div class="card" style="margin-top:20px;">
+      <div class="section-title"><i class="fa fa-stopwatch" style="color:#ff6b35;margin-left:10px;"></i> مؤقت الدراسة</div>
+      <p style="color:var(--text-muted);margin-bottom:15px;">اضبط مدة المذاكرة بسرعة ثم ابدأ العدّ.</p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <input id="study-minutes-input" type="number" min="1" max="120" value="25" class="sp-input" style="max-width:120px;" placeholder="دقائق">
+        <button onclick="startStudyTimer()" class="btn" style="background:#ff6b35;">ابدأ <i class="fa fa-play"></i></button>
+        <div id="study-timer-display" style="font-size:30px;font-weight:900;color:var(--navy);">25:00</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="section-title"><i class="fa fa-crown" style="color:var(--navy);margin-left:10px;"></i> خطط الاشتراك</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+        <div style="border:1px solid #e2e8f0;border-radius:16px;padding:16px;text-align:center;background:var(--card-bg);">
+          <div style="font-size:26px;">🆓</div>
+          <div style="font-weight:900;margin-top:6px;">مجاني</div>
+          <div style="color:var(--text-muted);font-size:14px;">10 أسئلة لكل امتحان</div>
+        </div>
+        <div style="border:2px solid #ffd700;border-radius:16px;padding:16px;text-align:center;background:linear-gradient(180deg,#fffdf3, var(--card-bg));">
+          <div style="font-size:26px;">⭐</div>
+          <div style="font-weight:900;margin-top:6px;">VIP</div>
+          <div style="color:var(--text-muted);font-size:14px;">كل الأسئلة + مراجعة كاملة</div>
+        </div>
+        <div style="border:2px solid #64c8ff;border-radius:16px;padding:16px;text-align:center;background:linear-gradient(180deg,#f5fbff, var(--card-bg));">
+          <div style="font-size:26px;">💎</div>
+          <div style="font-weight:900;margin-top:6px;">VVIP</div>
+          <div style="color:var(--text-muted);font-size:14px;">كل الأسئلة + كل المزايا</div>
+        </div>
+      </div>
+    </div>
+
     <div class="quick-links-grid" style="margin-top:20px;">
       <div class="ql-card" onclick="showView('subjects-page')"><i class="fa fa-graduation-cap"></i><span>ابدأ الامتحان</span></div>
       <div class="ql-card" onclick="openSalah()"><i class="fa fa-robot"></i><span>صلاح AI</span></div>
@@ -171,7 +202,7 @@
         <button onclick="toggleReview()" class="btn" style="background:#28a745;"><i class="fa fa-eye"></i> راجع الإجابات</button>
       </div>
       <div id="result-upgrade-nudge" style="display:none;margin-top:20px;padding:15px;background:linear-gradient(135deg,#ffd70022,#ff8c0022);border:2px dashed #ffd700;border-radius:15px;text-align:center;">
-        <p style="font-weight:700;color:#b8860b;margin-bottom:8px;"><i class="fa fa-star"></i> ترقّ لـ VIP: مراجعة كاملة + 60 سؤال!</p>
+        <p style="font-weight:700;color:#b8860b;margin-bottom:8px;"><i class="fa fa-star"></i> ترقّ لـ VIP: مراجعة كاملة + كل الأسئلة!</p>
         <a href="pricing.html" class="btn btn-sm" style="background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;">اشترك الآن ⚡</a>
       </div>
       <div class="hidden" id="answers-review" style="margin-top:25px;text-align:right;">
@@ -215,14 +246,7 @@
             <li>تذكر: القلق طبيعي، خذ نفساً عميقاً وامضِ قُدُماً</li>
           </ul>
         </div>
-        <div class="tip-pane-card" style="border-right-color:#ff6b35;">
-          <h3><i class="fa fa-stopwatch" style="color:#ff6b35;"></i> مؤقت الدراسة</h3>
-          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-            <input id="study-minutes-input" type="number" min="1" max="120" value="25" class="sp-input" style="max-width:120px;" placeholder="دقائق">
-            <button onclick="startStudyTimer()" class="btn" style="background:#ff6b35;">ابدأ <i class="fa fa-play"></i></button>
-            <div id="study-timer-display" style="font-size:30px;font-weight:900;color:var(--navy);">25:00</div>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
