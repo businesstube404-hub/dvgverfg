@@ -27,7 +27,6 @@
         <button onclick="showView('home')"><i class="fa fa-home"></i> الرئيسية</button>
         <button onclick="showView('subjects-page')"><i class="fa fa-book"></i> الامتحانات</button>
         <button onclick="showView('tips')"><i class="fa fa-lightbulb"></i> نصائح</button>
-        <button onclick="showView('study-plan')"><i class="fa fa-list-check"></i> الخطة</button>
         <button onclick="showView('profile')"><i class="fa fa-user"></i> ملفي</button>
         <button onclick="location.href='pricing.html'"><i class="fa fa-star"></i> الأسعار</button>
       </div>
@@ -57,7 +56,6 @@
   </div>
 </header>
 
-
 <!-- ===================== HOME VIEW ===================== -->
 <div id="view-home" class="view-section">
   <div class="container">
@@ -74,9 +72,34 @@
     </div>
 
     <div class="card" style="margin-top:20px;">
-      <div class="section-title"><i class="fa fa-calendar-check" style="color:var(--navy);margin-left:10px;"></i> صفحة الخطة الدراسية</div>
-      <p style="color:var(--text-muted);margin-bottom:15px;">كل أدوات التخطيط موجودة في صفحة واحدة: مولّد الخطة، المؤقت، وقائمة الخطة القديمة.</p>
-      <button class="btn" onclick="showView('study-plan')" style="width:100%;"><i class="fa fa-arrow-left"></i> افتح صفحة الخطة</button>
+      <div class="section-title"><i class="fa fa-stopwatch" style="color:#ff6b35;margin-left:10px;"></i> مؤقت الدراسة</div>
+      <p style="color:var(--text-muted);margin-bottom:15px;">اضبط مدة المذاكرة بسرعة ثم ابدأ العدّ.</p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <input id="study-minutes-input" type="number" min="1" max="120" value="25" class="sp-input" style="max-width:120px;" placeholder="دقائق">
+        <button onclick="startStudyTimer()" class="btn" style="background:#ff6b35;">ابدأ <i class="fa fa-play"></i></button>
+        <div id="study-timer-display" style="font-size:30px;font-weight:900;color:var(--navy);">25:00</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="section-title"><i class="fa fa-crown" style="color:var(--navy);margin-left:10px;"></i> خطط الاشتراك</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+        <div style="border:1px solid #e2e8f0;border-radius:16px;padding:16px;text-align:center;background:var(--card-bg);">
+          <div style="font-size:26px;">🆓</div>
+          <div style="font-weight:900;margin-top:6px;">مجاني</div>
+          <div style="color:var(--text-muted);font-size:14px;">10 أسئلة لكل امتحان</div>
+        </div>
+        <div style="border:2px solid #ffd700;border-radius:16px;padding:16px;text-align:center;background:linear-gradient(180deg,#fffdf3, var(--card-bg));">
+          <div style="font-size:26px;">⭐</div>
+          <div style="font-weight:900;margin-top:6px;">VIP</div>
+          <div style="color:var(--text-muted);font-size:14px;">كل الأسئلة + مراجعة كاملة</div>
+        </div>
+        <div style="border:2px solid #64c8ff;border-radius:16px;padding:16px;text-align:center;background:linear-gradient(180deg,#f5fbff, var(--card-bg));">
+          <div style="font-size:26px;">💎</div>
+          <div style="font-weight:900;margin-top:6px;">VVIP</div>
+          <div style="color:var(--text-muted);font-size:14px;">كل الأسئلة + كل المزايا</div>
+        </div>
+      </div>
     </div>
 
     <div class="quick-links-grid" style="margin-top:20px;">
@@ -84,7 +107,6 @@
       <div class="ql-card" onclick="openSalah()"><i class="fa fa-robot"></i><span>صلاح AI</span></div>
       <div class="ql-card" onclick="showView('profile')"><i class="fa fa-chart-bar"></i><span>إحصائياتي</span></div>
       <div class="ql-card" onclick="showView('tips')"><i class="fa fa-lightbulb"></i><span>نصائح الدراسة</span></div>
-      <div class="ql-card" onclick="showView('study-plan')"><i class="fa fa-list-check"></i><span>خطة الطالب</span></div>
       <div class="ql-card" onclick="location.href='pricing.html'"><i class="fa fa-crown"></i><span>خطط الاشتراك</span></div>
     </div>
 
@@ -124,96 +146,111 @@
   </div>
 </div>
 
-<!-- ===================== STUDY PLAN VIEW ===================== -->
-<div id="view-study-plan" class="view-section hidden">
-  <div class="container" style="max-width:980px;">
+<!-- ===================== SUBJECTS VIEW ===================== -->
+<div id="view-subjects-page" class="view-section hidden">
+  <div class="container">
     <div class="card">
-      <div class="section-title"><i class="fa fa-calendar-check" style="color:var(--navy);margin-left:10px;"></i> خطة الطالب + المؤقت</div>
-      <p style="color:var(--text-muted);margin-bottom:15px;">هنا كل شيء بنفس الصفحة: مولّد الخطة الدراسية، مؤقت المذاكرة، والقائمة القديمة، ومع وضع المالك تفتح لك كل الخطط وكل الأسئلة.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-        <button class="btn btn-outline" onclick="toggleStudyPlanAdmin()"><i class="fa fa-user-shield"></i> <span id="admin-mode-label">تفعيل وضع المالك</span></button>
-        <button class="btn btn-outline" onclick="location.href='pricing.html'"><i class="fa fa-crown"></i> الخطط والأسعار</button>
+      <div class="section-title"><i class="fa fa-book-open" style="color:var(--navy);margin-left:10px;"></i> اختر المادة</div>
+      <div class="free-limit-banner hidden" id="free-limit-banner">
+        <p><i class="fa fa-lock"></i> أنت على الخطة المجانية – 10 أسئلة فقط لكل امتحان. ترقّ للـ VIP للحصول على كامل الأسئلة!</p>
+        <a href="pricing.html" class="btn btn-sm" style="background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;">ترقّ الآن ⚡</a>
       </div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <div class="section-title"><i class="fa fa-stopwatch" style="color:#ff6b35;margin-left:10px;"></i> مؤقت الدراسة</div>
-      <p style="color:var(--text-muted);margin-bottom:15px;">اضبط مدة المذاكرة بسرعة ثم ابدأ العدّ.</p>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <input id="study-minutes-input" type="number" min="1" max="120" value="25" class="sp-input" style="max-width:120px;" placeholder="دقائق">
-        <button onclick="startStudyTimer()" class="btn" style="background:#ff6b35;">ابدأ <i class="fa fa-play"></i></button>
-        <div id="study-timer-display" style="font-size:30px;font-weight:900;color:var(--navy);">25:00</div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <div class="section-title"><i class="fa fa-calendar-check" style="color:var(--navy);margin-left:10px;"></i> مولّد الخطة الدراسية</div>
-      <div style="display:grid;gap:15px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:20px;">
-        <div>
-          <label style="font-weight:700;display:block;margin-bottom:6px;">المادة</label>
-          <select id="sp-subject" class="sp-input">
-            <option>التربية الإسلامية</option><option>الرياضيات</option><option>اللغة العربية</option>
-            <option>تاريخ الأردن</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-weight:700;display:block;margin-bottom:6px;">عدد الدروس الكلي</label>
-          <input id="sp-total" type="number" class="sp-input" placeholder="مثال: 20">
-        </div>
-        <div>
-          <label style="font-weight:700;display:block;margin-bottom:6px;">ما أنجزته</label>
-          <input id="sp-completed" type="number" class="sp-input" placeholder="مثال: 5" value="0">
-        </div>
-        <div>
-          <label style="font-weight:700;display:block;margin-bottom:6px;">مستواك</label>
-          <select id="sp-level" class="sp-input">
-            <option value="weak">ضعيف – بحاجة لوقت أكثر</option>
-            <option value="medium" selected>متوسط – منتظم</option>
-            <option value="strong">قوي – تركيز عالي</option>
-          </select>
-        </div>
-      </div>
-      <button onclick="generatePlan()" class="btn" style="width:100%;"><i class="fa fa-magic"></i> ولّد خطتي الدراسية</button>
-      <div id="sp-result" style="margin-top:25px;display:none;"></div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <div class="section-title"><i class="fa fa-list-check" style="color:var(--navy);margin-left:10px;"></i> قائمة خطة الطالب القديمة</div>
-      <div class="tips-wrapper" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
-        <div class="tip-pane-card">
-          <h3><i class="fa fa-brain"></i> استراتيجيات الذاكرة</h3>
-          <ul>
-            <li>تقنية Pomodoro: 25 دقيقة تركيز + 5 دقائق راحة</li>
-            <li>اشرح الدرس كأنك تعلم شخصاً آخر</li>
-            <li>راجع قبل النوم مباشرة لتثبيت المعلومات</li>
-          </ul>
-        </div>
-        <div class="tip-pane-card">
-          <h3><i class="fa fa-clock"></i> تنظيم الوقت</h3>
-          <ul>
-            <li>ادرس المواد الصعبة في وقت تركيزك العالي</li>
-            <li>قسّم الدروس الطويلة إلى أجزاء صغيرة</li>
-            <li>خصص وقتاً يومياً ثابتاً للمراجعة</li>
-          </ul>
-        </div>
-        <div class="tip-pane-card">
-          <h3><i class="fa fa-heart"></i> راحة وتركيز</h3>
-          <ul>
-            <li>نم 7-8 ساعات يومياً</li>
-            <li>اشرب الماء باستمرار</li>
-            <li>خذ استراحة قصيرة بعد كل فترة دراسة</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <div class="section-title"><i class="fa fa-crown" style="color:var(--navy);margin-left:10px;"></i> الخطط والأسئلة للمالك</div>
-      <div id="admin-access-panel"></div>
+      <div class="subjects-grid" id="subjectsGrid"></div>
     </div>
   </div>
 </div>
 
+<!-- ===================== EXAM VIEW ===================== -->
+<div id="view-exam" class="view-section hidden">
+  <div class="container" style="max-width:700px;">
+    <div class="exam-header">
+      <span><i class="fa fa-stopwatch" style="color:var(--navy);margin-left:5px;"></i> <span id="examTimerDisplay">00:00</span></span>
+      <span>السؤال <strong id="currentQIndex">1</strong> / <strong id="totalQCount">10</strong></span>
+      <button onclick="confirmExitExam()" class="btn btn-sm" style="background:#dc3545;font-size:13px;padding:8px 16px;">خروج <i class="fa fa-times"></i></button>
+    </div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="question-wrapper">
+      <div class="q-num-badge">السؤال <span id="currentQIndex2">1</span></div>
+      <p class="q-text" id="questionText"></p>
+      <div class="options-grid" id="optionsContainer"></div>
+    </div>
+    <div class="exam-actions">
+      <button id="prevBtn" onclick="prevQuestion()" class="btn btn-outline"><i class="fa fa-arrow-right"></i> السابق</button>
+      <button id="nextOrFinishBtn" onclick="nextOrFinish()" class="btn">التالي <i class="fa fa-arrow-left"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RESULT VIEW ===================== -->
+<div id="view-result" class="view-section hidden">
+  <div class="container" style="max-width:700px;">
+    <div class="result-screen" style="margin-top:25px;">
+      <h2 style="font-size:28px;margin-bottom:25px;">نتيجتك 🎯</h2>
+      <div class="result-score-circle">
+        <span class="score-num" id="result-percent">0%</span>
+        <span class="score-label">مجموع</span>
+      </div>
+      <div class="result-stats-row">
+        <div class="result-stat correct-stat"><h3 id="result-correct">0</h3><p>صحيح ✅</p></div>
+        <div class="result-stat wrong-stat"><h3 id="result-wrong">0</h3><p>خطأ ❌</p></div>
+        <div class="result-stat total-stat"><h3 id="result-total">0</h3><p>مجموع 📝</p></div>
+      </div>
+      <p class="result-msg" id="result-msg"></p>
+      <p class="result-sub" id="result-sub"></p>
+      <div class="result-actions">
+        <button onclick="showView('subjects-page')" class="btn btn-outline"><i class="fa fa-list"></i> اختر مادة</button>
+        <button onclick="toggleReview()" class="btn" style="background:#28a745;"><i class="fa fa-eye"></i> راجع الإجابات</button>
+      </div>
+      <div id="result-upgrade-nudge" style="display:none;margin-top:20px;padding:15px;background:linear-gradient(135deg,#ffd70022,#ff8c0022);border:2px dashed #ffd700;border-radius:15px;text-align:center;">
+        <p style="font-weight:700;color:#b8860b;margin-bottom:8px;"><i class="fa fa-star"></i> ترقّ لـ VIP: مراجعة كاملة + كل الأسئلة!</p>
+        <a href="pricing.html" class="btn btn-sm" style="background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;">اشترك الآن ⚡</a>
+      </div>
+      <div class="hidden" id="answers-review" style="margin-top:25px;text-align:right;">
+        <h3 style="margin-bottom:15px;"><i class="fa fa-clipboard-list" style="color:var(--navy);margin-left:10px;"></i> مراجعة الإجابات</h3>
+        <div id="review-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TIPS VIEW ===================== -->
+<div id="view-tips" class="view-section hidden">
+  <div class="container">
+    <div class="card">
+      <div class="section-title"><i class="fa fa-lightbulb" style="color:var(--navy);margin-left:10px;"></i> نصائح دراسية ذهبية</div>
+      <div class="tips-wrapper">
+        <div class="tip-pane-card">
+          <h3><i class="fa fa-brain"></i> استراتيجيات الذاكرة</h3>
+          <ul>
+            <li>تقنية Pomodoro: 25 دقيقة تركيز + 5 دقائق راحة، كرر 4 مرات</li>
+            <li>اشرح الدرس كأنك تعلم شخصاً آخر – هذا يثبت المعلومة</li>
+            <li>راجع قبل النوم مباشرة للتثبيت في الذاكرة طويلة المدى</li>
+            <li>استخدم الألوان والخرائط الذهنية لتنظيم المعلومات</li>
+          </ul>
+        </div>
+        <div class="tip-pane-card">
+          <h3><i class="fa fa-clock"></i> إدارة الوقت</h3>
+          <ul>
+            <li>درّس المواد الصعبة في وقت ذروة تركيزك (الصباح غالباً)</li>
+            <li>قسّم الدروس الطويلة إلى أجزاء صغيرة قابلة للإنجاز</li>
+            <li>خصص وقتاً يومياً ثابتاً للمراجعة حتى لو 30 دقيقة</li>
+            <li>أبعد الهاتف أثناء الدراسة، حوّله لوضع عدم الإزعاج</li>
+          </ul>
+        </div>
+        <div class="tip-pane-card">
+          <h3><i class="fa fa-heart"></i> الصحة النفسية والجسدية</h3>
+          <ul>
+            <li>نم 7-8 ساعات يومياً – النوم يثبت المعلومات ويجدد الطاقة</li>
+            <li>اشرب الماء باستمرار – الجفاف يضعف التركيز بنسبة 20%</li>
+            <li>تمرين خفيف (مشي 20 دقيقة) يزيد التركيز والذاكرة</li>
+            <li>تذكر: القلق طبيعي، خذ نفساً عميقاً وامضِ قُدُماً</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ===================== PROFILE VIEW ===================== -->
 <div id="view-profile" class="view-section hidden">
@@ -248,10 +285,36 @@
       </div>
     </div>
 
-    <div class="card" style="margin-top:20px;">
-      <div class="section-title"><i class="fa fa-calendar-check" style="color:var(--navy);margin-left:10px;"></i> الخطة الدراسية</div>
-      <p style="color:var(--text-muted);margin-bottom:15px;">مولد الخطة والمؤقت صاروا في صفحة واحدة حتى يكون كل شيء مرتب.</p>
-      <button class="btn" onclick="showView('study-plan')" style="width:100%;"><i class="fa fa-arrow-left"></i> افتح صفحة الخطة</button>
+    <!-- Study Plan Generator -->
+    <div class="card">
+      <div class="section-title"><i class="fa fa-calendar-check" style="color:var(--navy);margin-left:10px;"></i> مولّد الخطة الدراسية</div>
+      <div style="display:grid;gap:15px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:20px;">
+        <div>
+          <label style="font-weight:700;display:block;margin-bottom:6px;">المادة</label>
+          <select id="sp-subject" class="sp-input">
+            <option>التربية الإسلامية</option><option>الرياضيات</option><option>اللغة العربية</option>
+            <option>تاريخ الأردن</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-weight:700;display:block;margin-bottom:6px;">عدد الدروس الكلي</label>
+          <input id="sp-total" type="number" class="sp-input" placeholder="مثال: 20">
+        </div>
+        <div>
+          <label style="font-weight:700;display:block;margin-bottom:6px;">ما أنجزته</label>
+          <input id="sp-completed" type="number" class="sp-input" placeholder="مثال: 5" value="0">
+        </div>
+        <div>
+          <label style="font-weight:700;display:block;margin-bottom:6px;">مستواك</label>
+          <select id="sp-level" class="sp-input">
+            <option value="weak">ضعيف – بحاجة لوقت أكثر</option>
+            <option value="medium" selected>متوسط – منتظم</option>
+            <option value="strong">قوي – تركيز عالي</option>
+          </select>
+        </div>
+      </div>
+      <button onclick="generatePlan()" class="btn" style="width:100%;"><i class="fa fa-magic"></i> ولّد خطتي الدراسية</button>
+      <div id="sp-result" style="margin-top:25px;display:none;"></div>
     </div>
   </div>
 </div>

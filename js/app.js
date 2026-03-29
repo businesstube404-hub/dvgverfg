@@ -4,7 +4,7 @@
 
 import { signInWithGoogle, signOutUser, onAuthChange, getCurrentPlan, getCurrentUserData } from './auth.js';
 import { PLANS, canUse, getLimit, checkAiChatLimit, incrementAiChatUsage } from './subscription.js';
-import { loadQuestions, getSubjectQuestions, startExam, prevQuestion, nextOrFinish, confirmExitExam, finishExam, ALL_QUESTIONS } from './exam.js';
+import { loadQuestions, getSubjectQuestions, startExam, prevQuestion, nextOrFinish, confirmExitExam, finishExam } from './exam.js';
 import { initTheme, toggleTheme, startMinistryCountdown, updateStreak, initProfile, saveStudentName, startStudyTimer, generatePlan } from './ui.js';
 
 // ── SUBJECTS CONFIG ───────────────────────────────────────────
@@ -21,87 +21,8 @@ function showView(id) {
   const el = document.getElementById('view-' + id);
   if (el) el.classList.remove('hidden');
   window.scrollTo(0, 0);
-  if (id === 'profile')      initProfile(getCurrentUserData());
+  if (id === 'profile')  initProfile(getCurrentUserData());
   if (id === 'subjects-page') renderSubjectsGrid();
-  if (id === 'study-plan')    renderStudyPlanAdmin();
-}
-
-
-function isStudyPlanAdmin() {
-  return localStorage.getItem('toquizAdminMode') === '1';
-}
-
-function renderStudyPlanAdmin() {
-  const panel = document.getElementById('admin-access-panel');
-  const label = document.getElementById('admin-mode-label');
-  if (label) label.innerText = isStudyPlanAdmin() ? 'إيقاف وضع المالك' : 'تفعيل وضع المالك';
-  if (!panel) return;
-
-  if (!isStudyPlanAdmin()) {
-    panel.innerHTML = `
-      <div style="padding:16px;border:1px dashed #cbd5e1;border-radius:16px;background:rgba(10,61,98,0.03);">
-        <p style="margin-bottom:10px;color:var(--text-muted);">فعّل وضع المالك لعرض كل الخطط وكل الأسئلة.</p>
-        <ul style="padding-right:18px;line-height:1.9;color:var(--text-muted);">
-          <li>ترتيب الخطط</li>
-          <li>عرض جميع الأسئلة</li>
-          <li>عرض كل المواد</li>
-        </ul>
-      </div>`;
-    return;
-  }
-
-  const planCards = Object.entries(PLANS).map(([key, plan]) => `
-    <div style="border:1px solid #e2e8f0;border-radius:16px;padding:14px;background:var(--card-bg);">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-        <strong>${plan.icon} ${plan.name}</strong>
-        <span class="${plan.badgeClass}" style="padding:4px 10px;border-radius:999px;font-size:12px;">${key}</span>
-      </div>
-      <ul style="margin-top:10px;padding-right:18px;line-height:1.8;">
-        ${plan.features.map(f => `<li>${f.text} ${f.ok ? '✅' : '❌'}</li>`).join('')}
-      </ul>
-    </div>
-  `).join('');
-
-  const grouped = {};
-  ALL_QUESTIONS.forEach(q => {
-    if (!grouped[q.subject]) grouped[q.subject] = [];
-    grouped[q.subject].push(q);
-  });
-
-  const questionsHtml = Object.entries(grouped).map(([subject, qs]) => `
-    <details style="border:1px solid #e2e8f0;border-radius:16px;padding:12px;background:var(--card-bg);margin-bottom:10px;">
-      <summary style="font-weight:800;cursor:pointer;">${subject} — ${qs.length} سؤال</summary>
-      <div style="margin-top:12px;display:grid;gap:10px;">
-        ${qs.map((q, idx) => `
-          <div style="padding:12px;border-radius:12px;background:rgba(10,61,98,0.03);border:1px solid #eef2f7;">
-            <div style="font-weight:700;margin-bottom:6px;">${idx + 1}. ${q.question}</div>
-            <div style="font-size:14px;line-height:1.7;color:var(--text-muted);">
-              ${q.options.map((opt, i) => `<div>${['أ','ب','ج','د'][i]}) ${opt}</div>`).join('')}
-            </div>
-            <div style="margin-top:8px;font-weight:800;color:#16a34a;">الإجابة الصحيحة: ${['أ','ب','ج','د'][q.correct]}</div>
-          </div>
-        `).join('')}
-      </div>
-    </details>
-  `).join('');
-
-  panel.innerHTML = `
-    <div style="display:grid;gap:14px;">
-      <div>
-        <h3 style="margin-bottom:10px;">الخطط المتاحة</h3>
-        <div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">${planCards}</div>
-      </div>
-      <div>
-        <h3 style="margin-bottom:10px;">كل الأسئلة (${ALL_QUESTIONS.length})</h3>
-        <div style="display:grid;gap:12px;">${questionsHtml}</div>
-      </div>
-    </div>`;
-}
-
-function toggleStudyPlanAdmin() {
-  const current = localStorage.getItem('toquizAdminMode') === '1';
-  localStorage.setItem('toquizAdminMode', current ? '0' : '1');
-  renderStudyPlanAdmin();
 }
 
 // ── AUTH UI UPDATE ────────────────────────────────────────────
@@ -132,9 +53,6 @@ function updateAuthUI(user, userData) {
     userMenu?.classList.add('hidden');
     if (planBadge) { planBadge.innerText = '🆓 مجاني'; planBadge.className = 'plan-badge-header plan-badge-FREE'; }
     if (upgradeBtn) upgradeBtn?.classList.remove('hidden');
-  }
-  if (document.getElementById('view-study-plan') && !document.getElementById('view-study-plan').classList.contains('hidden')) {
-    renderStudyPlanAdmin();
   }
 }
 
@@ -310,7 +228,6 @@ window.sendSalah         = sendSalah;
 window.showUpgradeModal  = showUpgradeModal;
 window.closeUpgradeModal = closeUpgradeModal;
 window.toggleReview      = toggleReview;
-window.toggleStudyPlanAdmin = toggleStudyPlanAdmin;
 window.saveStudentName   = saveStudentName;
 window.startStudyTimer   = startStudyTimer;
 window.generatePlan      = generatePlan;
