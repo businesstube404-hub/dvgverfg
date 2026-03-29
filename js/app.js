@@ -2,8 +2,9 @@
 // Main App Entry Point
 // ================================================================
 
-import { signInWithGoogle, signOutUser, onAuthChange, getCurrentPlan, getCurrentUserData } from './auth.js';
+import { signInWithGoogle, signOutUser, onAuthChange, getCurrentPlan, getCurrentUserData, getCurrentUser } from './auth.js';
 import { PLANS, canUse, getLimit, checkAiChatLimit, incrementAiChatUsage } from './subscription.js';
+import { redeemCode } from './redeem.js';
 import { loadQuestions, getSubjectQuestions, startExam, prevQuestion, nextOrFinish, confirmExitExam, finishExam } from './exam.js';
 import { initTheme, toggleTheme, startMinistryCountdown, updateStreak, initProfile, saveStudentName, startStudyTimer, generatePlan } from './ui.js';
 
@@ -40,14 +41,14 @@ function updateAuthUI(user, userData) {
     if (userAvatar)  userAvatar.src = user.photoURL || '';
     if (userName)    userName.innerText = user.displayName?.split(' ')[0] || '';
 
-    const plan = userData.subscriptionType || 'FREE';
-    const cfg  = PLANS[plan];
+    const planKey = userData.role === 'admin' ? 'ADMIN' : (userData.subscriptionType || 'FREE');
+    const cfg  = PLANS[planKey] ?? PLANS.FREE;
     if (planBadge) {
       planBadge.innerText   = cfg.icon + ' ' + cfg.name;
       planBadge.className   = `plan-badge-header ${cfg.badgeClass}`;
     }
     // Show upgrade btn only for FREE users
-    if (upgradeBtn) upgradeBtn.classList.toggle('hidden', plan !== 'FREE');
+    if (upgradeBtn) upgradeBtn.classList.toggle('hidden', planKey !== 'FREE');
   } else {
     loginBtn?.classList.remove('hidden');
     userMenu?.classList.add('hidden');
@@ -215,6 +216,15 @@ async function init() {
     updateAuthUI(user, userData);
     renderSubjectsGrid();
   });
+
+  window.addEventListener('redeem:success', () => {
+    const user = getCurrentUser();
+    const userData = getCurrentUserData();
+    if (user && userData) {
+      updateAuthUI(user, userData);
+      renderSubjectsGrid();
+    }
+  });
 }
 
 // ── EXPOSE GLOBALS (for HTML onclick attrs) ───────────────────
@@ -231,6 +241,7 @@ window.toggleReview      = toggleReview;
 window.saveStudentName   = saveStudentName;
 window.startStudyTimer   = startStudyTimer;
 window.generatePlan      = generatePlan;
+window.redeemCode        = redeemCode;
 window.prevQuestion      = () => prevQuestion();
 window.nextOrFinish      = () => nextOrFinish(() => showView('result'));
 window.confirmExitExam   = () => confirmExitExam(() => showView('subjects-page'));

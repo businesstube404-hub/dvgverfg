@@ -285,6 +285,16 @@
       </div>
     </div>
 
+    <div class="card" id="redeem-card" style="margin-top:20px;">
+      <div class="section-title"><i class="fa fa-ticket-alt" style="color:var(--navy);margin-left:10px;"></i> تفعيل كود الاشتراك</div>
+      <p style="color:var(--text-muted);margin-bottom:15px;">أدخل الكود الخاص بك لتفعيل الخطة فوراً.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <input id="redeem-code-input" class="sp-input" placeholder="مثال: PREMIUM-2026" style="flex:1;min-width:220px;">
+        <button onclick="redeemCode()" class="btn"><i class="fa fa-check"></i> تفعيل الكود</button>
+      </div>
+      <div id="redeem-code-status" style="margin-top:12px;font-weight:700;color:var(--navy);"></div>
+    </div>
+
     <!-- Study Plan Generator -->
     <div class="card">
       <div class="section-title"><i class="fa fa-calendar-check" style="color:var(--navy);margin-left:10px;"></i> مولّد الخطة الدراسية</div>

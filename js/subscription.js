@@ -73,6 +73,29 @@ export const PLANS = {
       { text: 'اختبارات تجريبية حصرية', ok: true },
     ],
   },
+
+  ADMIN: {
+    name: 'Admin',
+    nameEn: 'ADMIN',
+    price: 0,
+    period: '',
+    icon: '👑',
+    color: '#8b5cf6',
+    badgeClass: 'plan-badge-ADMIN',
+    maxQuestionsPerExam: Infinity,
+    aiChatEnabled: true,
+    aiChatDailyLimit: Infinity,
+    answerReviewEnabled: true,
+    studyPlanEnabled: true,
+    features: [
+      { text: 'وصول كامل لكل المحتوى', ok: true },
+      { text: 'كل مميزات VVIP', ok: true },
+      { text: 'صلاح AI بلا حدود', ok: true },
+      { text: 'كل المواد والأسئلة', ok: true },
+      { text: 'مراجعة كاملة للإجابات', ok: true },
+      { text: 'الخطة الدراسية الذكية', ok: true },
+    ],
+  },
 };
 
 /**

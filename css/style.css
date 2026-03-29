@@ -27,6 +27,7 @@ header{background:var(--black);color:var(--white);padding:15px 0;position:sticky
 .plan-badge-FREE{background:rgba(108,117,125,0.2);color:#aaa;border-color:#aaa;}
 .plan-badge-VIP{background:rgba(255,215,0,0.2);color:#ffd700;border-color:#ffd700;}
 .plan-badge-VVIP{background:rgba(100,200,255,0.2);color:#64c8ff;border-color:#64c8ff;}
+.plan-badge-ADMIN{background:rgba(139,92,246,0.2);color:#8b5cf6;border-color:#8b5cf6;}
 .btn,.btn-outline{padding:12px 28px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;gap:8px;justify-content:center;font-family:'Cairo';}
 .btn{background:var(--navy);color:#fff;} .btn:hover{background:#0d5a8f;transform:translateY(-2px);}
 .btn-sm{padding:8px 18px;font-size:14px;border-radius:10px;}
