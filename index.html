@@ -27,6 +27,7 @@
         <button onclick="showView('home')"><i class="fa fa-home"></i> الرئيسية</button>
         <button onclick="showView('subjects-page')"><i class="fa fa-book"></i> الامتحانات</button>
         <button onclick="showView('tips')"><i class="fa fa-lightbulb"></i> نصائح</button>
+        <button onclick="showView('tips')"><i class="fa fa-list-check"></i> الخطة</button>
         <button onclick="showView('profile')"><i class="fa fa-user"></i> ملفي</button>
         <button onclick="location.href='pricing.html'"><i class="fa fa-star"></i> الأسعار</button>
       </div>
@@ -107,7 +108,47 @@
       <div class="ql-card" onclick="openSalah()"><i class="fa fa-robot"></i><span>صلاح AI</span></div>
       <div class="ql-card" onclick="showView('profile')"><i class="fa fa-chart-bar"></i><span>إحصائياتي</span></div>
       <div class="ql-card" onclick="showView('tips')"><i class="fa fa-lightbulb"></i><span>نصائح الدراسة</span></div>
+      <div class="ql-card" onclick="showView('tips')"><i class="fa fa-list-check"></i><span>خطة الطالب</span></div>
       <div class="ql-card" onclick="location.href='pricing.html'"><i class="fa fa-crown"></i><span>خطط الاشتراك</span></div>
+    </div>
+
+    <!-- ===================== RESTORED STUDY PLAN LIST ===================== -->
+    <div class="card">
+      <div class="section-title"><i class="fa fa-list-check" style="color:var(--navy);margin-left:10px;"></i> قائمة خطة الطالب القديمة</div>
+      <div class="tips-wrapper" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+        <div class="tip-pane-card">
+          <h3><i class="fa fa-brain"></i> استراتيجيات الذاكرة</h3>
+          <ul>
+            <li>تقنية Pomodoro: 25 دقيقة تركيز + 5 دقائق راحة</li>
+            <li>اشرح الدرس كأنك تعلم شخصاً آخر</li>
+            <li>راجع قبل النوم مباشرة لتثبيت المعلومات</li>
+          </ul>
+        </div>
+        <div class="tip-pane-card">
+          <h3><i class="fa fa-clock"></i> تنظيم الوقت</h3>
+          <ul>
+            <li>ادرس المواد الصعبة في وقت تركيزك العالي</li>
+            <li>قسّم الدروس الطويلة إلى أجزاء صغيرة</li>
+            <li>خصص وقتاً يومياً ثابتاً للمراجعة</li>
+          </ul>
+        </div>
+        <div class="tip-pane-card">
+          <h3><i class="fa fa-heart"></i> راحة وتركيز</h3>
+          <ul>
+            <li>نم 7-8 ساعات يومياً</li>
+            <li>اشرب الماء باستمرار</li>
+            <li>خذ استراحة قصيرة بعد كل فترة دراسة</li>
+          </ul>
+        </div>
+        <div class="tip-pane-card" style="border-right-color:#ff6b35;">
+          <h3><i class="fa fa-stopwatch" style="color:#ff6b35;"></i> مؤقت الدراسة</h3>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <input id="study-minutes-input" type="number" min="1" max="120" value="25" class="sp-input" style="max-width:120px;" placeholder="دقائق">
+            <button onclick="startStudyTimer()" class="btn" style="background:#ff6b35;">ابدأ <i class="fa fa-play"></i></button>
+            <div id="study-timer-display" style="font-size:30px;font-weight:900;color:var(--navy);">25:00</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="card">
